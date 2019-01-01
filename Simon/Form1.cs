@@ -14,15 +14,22 @@ namespace Simon
     public partial class Form1 : Form
     {
 
+
         int stepsInRound = 1;// מיקום
         int currentStep = 0; // סיבוב
         const int MAX = 4; // מספר סיבובים מקסימלי
         Color pressColor = Color.Black;
         int sleep = 750;
         int[] colors = new int[MAX];
-        int [] records = new int[100];
+        int[] records = new int[100];
         int q = 0;
-        //int maxrecord = 0;
+        Color[] colors1 = { Color.Red, Color.Yellow, Color.Green, Color.Gray, Color.White, Color.Navy, Color.Orange, Color.Pink, Color.Blue, Color.Purple };
+
+        Random c = new Random();
+        Color clr1;
+        Color clr2;
+        Color clr3;
+        Color clr4;
 
 
 
@@ -33,11 +40,67 @@ namespace Simon
 
         private void Form1_Load(object sender, EventArgs e)
         {
-        }
+            
+            int clr = c.Next(10);
+            clr1 = colors1[clr];
+            redPanel0.BackColor = clr1;
+            colors1[clr] = Color.Black;
+            clr = c.Next(10);
+            p2(colors1, ref clr,  out clr2);
+            clr = c.Next(10);
+            p3(colors1, ref clr, out clr3);
+            clr = c.Next(10);
+            p4(colors1, ref clr, out clr4);
 
+
+
+        }
+        private void p4(Color[] colors1, ref int clr, out Color clr4)
+        {
+            if (colors1[clr] != Color.Black)
+            {
+                clr4 = colors1[clr];
+                greenPanel3.BackColor = clr4;
+                colors1[clr] = Color.Black;
+            }
+            else
+            {
+                clr = c.Next(10);
+                p4(colors1, ref clr, out clr4);
+            }
+        }
+        private void p3(Color[] colors1, ref int clr , out Color clr3)
+        {
+            if (colors1[clr] != Color.Black)
+            {
+                clr3 = colors1[clr];
+                bluePanel2.BackColor = clr3;
+                colors1[clr] = Color.Black;
+            }
+            else
+            {
+                clr = c.Next(10);
+                p3(colors1, ref clr, out clr3);
+            }
+        }
+        private void p2(Color[] colors1, ref int clr, out Color clr2)
+        {
+            if (colors1[clr] != Color.Black)
+            {
+                clr2 = colors1[clr];
+                yellowPanel1.BackColor = clr2;
+                colors1[clr] = Color.Black;
+            }
+            else
+            {
+                clr = c.Next(10);
+                p2(colors1, ref clr, out clr2);
+            }
+        }
         private void startGameBtn_Click(object sender, EventArgs e)
         {
-            Random r = new Random();      
+
+            Random r = new Random();
             label1.Text = ($"Record {q}");
             stepsInRound = 1;
             currentStep = 0;
@@ -50,7 +113,7 @@ namespace Simon
             new Thread(() =>
            {
 
-               switch (colors[0])// ציור סדר הצבעים
+               switch (colors[0])
                {
                    case 0:
                        redPanel0.BackColor = pressColor;
@@ -68,10 +131,10 @@ namespace Simon
 
                Thread.Sleep(sleep);
 
-               redPanel0.BackColor = Color.Red;
-               yellowPanel1.BackColor = Color.Yellow;
-               bluePanel2.BackColor = Color.Blue;
-               greenPanel3.BackColor = Color.Lime;
+               redPanel0.BackColor = clr1;
+               yellowPanel1.BackColor = clr2; 
+               bluePanel2.BackColor = clr3;
+               greenPanel3.BackColor = clr4;
 
            }).Start();
            
@@ -122,10 +185,10 @@ namespace Simon
 
                         Thread.Sleep(sleep);
 
-                        redPanel0.BackColor = Color.Red;
-                        yellowPanel1.BackColor = Color.Yellow;
-                        bluePanel2.BackColor = Color.Blue;
-                        greenPanel3.BackColor = Color.Lime;
+                        redPanel0.BackColor = clr1;
+                        yellowPanel1.BackColor = clr2;
+                        bluePanel2.BackColor = clr3;
+                        greenPanel3.BackColor = clr4;
 
                         Thread.Sleep(100);
                     }
@@ -142,7 +205,7 @@ namespace Simon
             {
                 redPanel0.BackColor = pressColor;
                 Thread.Sleep(sleep);
-                redPanel0.BackColor = Color.Red;
+                redPanel0.BackColor = clr1;
                 if (colors[currentStep] != 0)
                 {
                     MessageBox.Show("WRONG", "WRONG!", MessageBoxButtons.OK, MessageBoxIcon.Error);                    
@@ -163,7 +226,7 @@ namespace Simon
             {
                 yellowPanel1.BackColor = pressColor;
                 Thread.Sleep(sleep);
-                yellowPanel1.BackColor = Color.Yellow;
+                yellowPanel1.BackColor = clr2;
                 if (colors[currentStep] != 1)
                 {
                     MessageBox.Show("WRONG", "WRONG!", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -181,7 +244,7 @@ namespace Simon
             {
                 bluePanel2.BackColor = pressColor;
                 Thread.Sleep(sleep);
-                bluePanel2.BackColor = Color.Blue;
+                bluePanel2.BackColor = clr3;
                 if (colors[currentStep] != 2)
                 {
                     MessageBox.Show("WRONG", "WRONG!", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -199,7 +262,7 @@ namespace Simon
             {
                 greenPanel3.BackColor = pressColor;
                 Thread.Sleep(sleep);
-                greenPanel3.BackColor = Color.Lime;
+                greenPanel3.BackColor = clr4;
                 if (colors[currentStep] != 3)
                 {
                     MessageBox.Show("WRONG", "WRONG!", MessageBoxButtons.OK, MessageBoxIcon.Error);
